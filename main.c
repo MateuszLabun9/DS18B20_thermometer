@@ -2,7 +2,7 @@
  * mikro_projektv2.c
  *
  * Created: 18.05.2020 20:33:16
- * Author : Pawe≥
+ * Author : Pawe≈Ç
  */ 
 #include "termometr.h"
 #include <avr/io.h>
@@ -14,26 +14,26 @@
 #include <stdio.h>
 
 
-//tablice z wartoúciami wyúwietlanymi na wyúwietlaczu 7-seg 
+//tablice z warto≈õciami wy≈õwietlanymi na wy≈õwietlaczu 7-seg 
 uint8_t seg7[]={0xc0,0xf9,0xa4,0xb0,0x99,0x92,0x82,0xf8,0x80,0x90};
-//tablica zawierajπca kolejne cyfry z kropkπ wyúwietlane na 3 wyúwietlaczu segmentowym
+//tablica zawierajƒÖca kolejne cyfry z kropkƒÖ wy≈õwietlane na 3 wy≈õwietlaczu segmentowym
 uint8_t seg7_kropka[]={0x40,0x79,0x24,0x30,0x19,0x12,0x2,0x78,0x0,0x10};
-//tablica przechowujπca wartoúci wysy≥ane na wyúwietlacz
+//tablica przechowujƒÖca warto≈õci wysy≈Çane na wy≈õwietlacz
 volatile int dane[3];
 //zmienna do wyboru skali
 volatile int skala=0;
-//zmienna pomocnicza do drgaÒ stykÛw
+//zmienna pomocnicza do drga≈Ñ styk√≥w
 volatile uint8_t klaw_zwieksz = 0;
 volatile int timer=1;
 
-//funkcje obs≥ugujπce czujnik DS18B20
+//funkcje obs≈ÇugujƒÖce czujnik DS18B20
 uint8_t reset_ds(uint8_t jaki) 
 {
   uint8_t stan; 
-  DS18B20_DDR |= (1<<(jaki)); //ustawienie pinu 1-wire jako wyjúcie 
+  DS18B20_DDR |= (1<<(jaki)); //ustawienie pinu 1-wire jako wyj≈õcie 
   DS18B20 &= ~(1<<(jaki)); //podanie stanu 0 na 1-wire 
   _delay_us(500); 
-  DS18B20_DDR &= ~(1<<(jaki)); //ustawienie pinu 1-wire jako wejúcie 
+  DS18B20_DDR &= ~(1<<(jaki)); //ustawienie pinu 1-wire jako wej≈õcie 
   DS18B20 |= (1<<(jaki)); //zwolnienie magistarli 1-wire 
   _delay_us(60); 
   if (!(DS18B20_PIN & (1<<(jaki)))) //sprawdzenie stanu linii 1-wire 
@@ -47,7 +47,7 @@ uint8_t reset_ds(uint8_t jaki)
  
  void write_bit_ds(uint8_t bit, uint8_t jaki) 
  { 
-	 DS18B20_DDR |= (1<<jaki); //ustawienie pinu 1-wire jako wyjúcie 
+	 DS18B20_DDR |= (1<<jaki); //ustawienie pinu 1-wire jako wyj≈õcie 
 	 DS18B20 &= ~(1<<jaki); //podanie stanu 0 na 1-wire 
 	 if (bit == 0) { 
 		 _delay_us(60); 
@@ -65,10 +65,10 @@ uint8_t reset_ds(uint8_t jaki)
 uint8_t read_bit_ds(uint8_t jaki) 
 {
 	uint8_t stan; 
-	DS18B20_DDR |= (1<<jaki); //ustawienie pinu 1-wire jako wyjúcie 
+	DS18B20_DDR |= (1<<jaki); //ustawienie pinu 1-wire jako wyj≈õcie 
 	DS18B20 &= ~(1<<jaki); //podanie stanu 0 na 1-wire 
 	_delay_us(7); 
-	DS18B20_DDR &= ~(1<<jaki); //ustawienie pinu 1-wire jako wejúcie 
+	DS18B20_DDR &= ~(1<<jaki); //ustawienie pinu 1-wire jako wej≈õcie 
 	_delay_us(12);
 	 if (!(DS18B20_PIN & (1<<jaki))) //sprawdzenie stanu linii 1-wire 
 	 { 
@@ -127,7 +127,7 @@ ISR(TIMER0_OVF_vect)
 {
 	
 	timer=5000;
-	//Wyúwietlanie danych na 4 wyúwietlaczach 7-seg
+	//Wy≈õwietlanie danych na 4 wy≈õwietlaczach 7-seg
 	static uint8_t i=0;
 	seg_PORT = 0xff;
 	wybor |= (1<<(7-i));
@@ -146,20 +146,20 @@ ISR(TIMER0_OVF_vect)
 
 int main(void)
 {
-	//aktywacja portÛw porzebnych do obs≥ugi wyúwietlacza
+	//aktywacja port√≥w porzebnych do obs≈Çugi wy≈õwietlacza
 	seg_DDR = 0xff; 
 	wybor_DDR |= 0xf0;
 		
-	przycisk_DDR &= ~(1<<zwieksz); //ustawianie przycisku jako urzπdzenie wejúciowe
+	przycisk_DDR &= ~(1<<zwieksz); //ustawianie przycisku jako urzƒÖdzenie wej≈õciowe
 	przycisk_port |= (1<<zwieksz); //ustawienie pull up dla tego przycisku 
 	
 	
 	TCCR0 = (1<<CS01) | (1<<CS00); //konfiguracja licznika T0
 	TCCR1B = (1<<WGM12) | (1<<CS12);//tryb CTC i preskaler 256
-	OCR1A = 976; //zapisanie do zawartoúci rejestru
+	OCR1A = 976; //zapisanie do zawarto≈õci rejestru
 	TIMSK = (1<<TOIE0) | (1<<OCIE1A); //konfiguracja timer interrupt mask
 
-	//Ustawienie pinu 0 jako wejúcie danych z 1-wire
+	//Ustawienie pinu 0 jako wej≈õcie danych z 1-wire
 	DDRB |=0b00000001;
 	PORTB =0b00000001;
 	
@@ -168,7 +168,7 @@ int main(void)
 	while (1)
 	{
 		
-		//Obs≥uga drgania stykÛw
+		//Obs≈Çuga drgania styk√≥w
 	if (klaw_zwieksz==2)
 	{
 		if (skala++==2) skala=0;
@@ -177,45 +177,45 @@ int main(void)
 	if(timer==0){	
 		uint16_t temp=0;
 		
-		uint16_t temp_p=read_temp(0); //Pobranie temperatury z czujnika DS18B20 (WartoúÊ domyúlnie w stopniach Celciusza)
-		uint16_t K = 4368; //Sta≥a do przeliczenia C -> K
-		uint16_t F = 512; //Sta≥a do przeliczenia C -> F
+		uint16_t temp_p=read_temp(0); //Pobranie temperatury z czujnika DS18B20 (Warto≈õƒá domy≈õlnie w stopniach Celciusza)
+		uint16_t K = 4368; //Sta≈Ça do przeliczenia C -> K
+		uint16_t F = 512; //Sta≈Ça do przeliczenia C -> F
 		
-		//Sprawdzanie przycisku odpowiedzialnego za wybÛr skali
+		//Sprawdzanie przycisku odpowiedzialnego za wyb√≥r skali
 		if (skala==0){
 			
 			temp = temp_p; //konwersja
-			DDRD &= ~(1<<5); //gaszenie diody oznaczajπcπ skalÍ F
-			DDRD |= (1<<7); //zapalanie diody oznaczajπcπ skalÍ C
+			DDRD &= ~(1<<5); //gaszenie diody oznaczajƒÖcƒÖ skalƒô F
+			DDRD |= (1<<7); //zapalanie diody oznaczajƒÖcƒÖ skalƒô C
 		}
 		if(skala==1){
 			temp = temp_p+K; //konwersja
-			DDRD &= ~(1<<7); //gaszenie diody oznaczajπcπ skalÍ C
-			DDRD |= (1<<6); //zapalenie diody oznaczajπcπ skalÍ K
+			DDRD &= ~(1<<7); //gaszenie diody oznaczajƒÖcƒÖ skalƒô C
+			DDRD |= (1<<6); //zapalenie diody oznaczajƒÖcƒÖ skalƒô K
 		}
 		if(skala==2){
 			temp=temp_p*18+F*10;
 			temp=temp/10;	//konwersja
-			DDRD &= ~(1<<6); //gaszenie diody oznaczajπcπ skalÍ K
-			DDRD |= (1<<5); //zapalanie diody oznaczajπcπ skalÍ F
+			DDRD &= ~(1<<6); //gaszenie diody oznaczajƒÖcƒÖ skalƒô K
+			DDRD |= (1<<5); //zapalanie diody oznaczajƒÖcƒÖ skalƒô F
 		}
 		
 		
-		uint16_t dec = temp; //Zmienna pomocnicza do obliczenia wartoúci po przecinku
-		temp &= 0xfff0; //Maska wydzielajπca wartoúci ca≥kowite z 16-bitÛw informacji z czujnika
+		uint16_t dec = temp; //Zmienna pomocnicza do obliczenia warto≈õci po przecinku
+		temp &= 0xfff0; //Maska wydzielajƒÖca warto≈õci ca≈Çkowite z 16-bit√≥w informacji z czujnika
 		
-		uint16_t temp_pom = temp >> 4; //przesuniÍcie bitowe ucinajπce 4 ostatnie bity odpowiedzialne za czÍúÊ po przecinku
-		
-		
+		uint16_t temp_pom = temp >> 4; //przesuniƒôcie bitowe ucinajƒÖce 4 ostatnie bity odpowiedzialne za czƒô≈õƒá po przecinku
 		
 		
-		//Wyznaczenie kolejno czÍsci setnych, dziesiπtek i jednoúci oraz zapisanie ich do poszczegÛlnych zmiennych
+		
+		
+		//Wyznaczenie kolejno czƒôsci setnych, dziesiƒÖtek i jedno≈õci oraz zapisanie ich do poszczeg√≥lnych zmiennych
 		uint16_t temp1=temp_pom/100; //setki
 		uint16_t temp2=temp_pom%100;
-		uint16_t temp3=temp2/10; //dziesiπtki
-		uint16_t temp4=temp2%10; //jednoúci
+		uint16_t temp3=temp2/10; //dziesiƒÖtki
+		uint16_t temp4=temp2%10; //jedno≈õci
 		
-		//Obliczenie wartoúci po przecinku o maksymalnej dok≥adnoúci dla zadanej rozdzielczoúci
+		//Obliczenie warto≈õci po przecinku o maksymalnej dok≈Çadno≈õci dla zadanej rozdzielczo≈õci
 		
 		//zmienne pomocnicze
 		int pom=0;
@@ -223,7 +223,7 @@ int main(void)
 		uint16_t temp_przec_2=dec;
 		uint16_t temp_przec_3=dec;
 		uint16_t temp_przec_4=dec;
-		//Maskowanie i badanie kaødego kolejnego bitu z czwÛrki odpowiedzialnej za wartoúci po przecinku
+		//Maskowanie i badanie ka≈ºdego kolejnego bitu z czw√≥rki odpowiedzialnej za warto≈õci po przecinku
 		temp_przec_1 &=0x1;
 		if(temp_przec_1== 1) pom+=625;
 		temp_przec_2 &= 0x2;
@@ -235,12 +235,12 @@ int main(void)
 		temp_przec_4 &= 0x8;
 		uint16_t temp44 = temp_przec_4 >> 3;
 		if(temp44 == 1) pom+=5000;
-		int pom1=pom/1000; //wyciπgniecie liczby ca≥kowitej bo nie moøemy wysy≥aÊ double na licznik 7-seg
+		int pom1=pom/1000; //wyciƒÖgniecie liczby ca≈Çkowitej bo nie mo≈ºemy wysy≈Çaƒá double na licznik 7-seg
 		
-		dane[0]=temp1; //Przes≥anie setek na wyúwietlacz
-		dane[1]=temp3; //Przes≥anie dziesiπtek na wyúwietlacz
-		dane[2]=temp4; //Przes≥anie jednoúci na wyúwietlacz
-		dane[3]=pom1; //Przes≥anie czÍúci dziesiÍtnych na wyúwietlacz
+		dane[0]=temp1; //Przes≈Çanie setek na wy≈õwietlacz
+		dane[1]=temp3; //Przes≈Çanie dziesiƒÖtek na wy≈õwietlacz
+		dane[2]=temp4; //Przes≈Çanie jedno≈õci na wy≈õwietlacz
+		dane[3]=pom1; //Przes≈Çanie czƒô≈õci dziesiƒôtnych na wy≈õwietlacz
 		
 	}
 	timer = timer-1;
@@ -248,7 +248,7 @@ int main(void)
 }
 
 ISR(TIMER1_COMPA_vect){
-	//Instrukcje obs≥ugujπce drgania stykÛw przycisku
+	//Instrukcje obs≈ÇugujƒÖce drgania styk√≥w przycisku
 
 	switch (klaw_zwieksz){
 		case 0: if (!(przycisk_pin & (1<<zwieksz))) klaw_zwieksz=1;
