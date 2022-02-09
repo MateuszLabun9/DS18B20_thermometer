@@ -1,7 +1,7 @@
 ﻿/*IncFile1.h
 
 Created 02.06.2020 115721
-Author Pawel
+Author Pawel & Mateusz
 
 */
 
