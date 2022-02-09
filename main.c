@@ -2,7 +2,7 @@
  * mikro_projektv2.c
  *
  * Created: 18.05.2020 20:33:16
- * Author : Paweł
+ * Author : Paweł  & Mateusz
  */ 
 #include "termometr.h"
 #include <avr/io.h>
